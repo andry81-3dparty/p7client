@@ -1,0 +1,3 @@
+2018.11.13:
+* new: changelog
+* new: initial sources fork at version 4.7 from http://baical.net/downloads.html (http://baical.net/p7changelog.txt)
