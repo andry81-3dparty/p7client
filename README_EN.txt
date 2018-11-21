@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.11.19
+* 2018.11.20
 * p7client
 
 1. DESCRIPTION
@@ -12,6 +12,9 @@
 1. DESCRIPTION
 -------------------------------------------------------------------------------
 p7client patched sources fork from: http://baical.net/p7.html
+
+Some review and tests versus other loggers on russian website (RU):
+  https://habr.com/post/313686/
 
 From authors:
   P7 is open source and cross-platform library for high-speed sending telemetry
