@@ -42,9 +42,8 @@ if(GCC)
     -pthread
   )
 
-  add_target_link_properties(${PROJECT_LIB_NAME} *
+  add_target_link_properties(${PROJECT_LIB_NAME} NOTSTATIC *
     -pthread
-    -ldl -lrt
   )
 endif()
 
@@ -56,5 +55,9 @@ if(WIN32)
   #  "Includes: [${WINDOWSSDK_INCLUDE_DIRS}] Library Dirs: [${WINDOWSSDK_LIBRARY_DIRS}]")
 
   #link_directories(${WINDOWSSDK_LIBRARY_DIRS})
-  target_link_libraries(${PROJECT_LIB_NAME} wsock32 ws2_32)
+  target_link_libraries(${PROJECT_LIB_NAME}
+    wsock32 ws2_32)
+elseif(UNIX AND NOT APPLE)
+  target_link_libraries(${PROJECT_LIB_NAME}
+    ${CMAKE_DL_LIBS} rt)
 endif()

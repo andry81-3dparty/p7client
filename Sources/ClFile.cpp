@@ -313,7 +313,12 @@ eClient_Status CClFile::Init_File(tXCHAR **i_pArgs,
     else
     {
         CProc::Get_Process_Path(m_pDir.Get(), m_pDir.Max_Length());
+#ifdef WIN32
+        // fix for long unc paths
+        m_pDir.Append(1, TM("\\P7logs\\"));
+#else
         m_pDir.Append(1, TM("/P7logs/"));
+#endif
     }
 
     if (FALSE == CFSYS::Directory_Exists(m_pDir.Get()))
@@ -531,7 +536,12 @@ eClient_Status CClFile::Create_File()
     {
         PSPrint(l_pFile_Name, 
                 LENGTH(l_pFile_Name), 
+#ifdef WIN32
+                // fix for long unc paths
+                TM("\\%04d%02d%02d-%02d%02d%02d%02d.") P7_EXT,
+#else
                 TM("/%04d%02d%02d-%02d%02d%02d%02d.") P7_EXT,
+#endif
                 l_dwYear, 
                 l_dwMonth,
                 l_dwDay,

@@ -1,3 +1,12 @@
+2018.11.30:
+* fixed: asm compilation under gcc `error: symbol crc32loop is already defined`
+
+2018.11.22:
+* fixed: build under linux
+
+2018.11.21:
+* fixed: access to long UNC paths under Windows (only backward slashes must be used there)
+
 2018.11.13:
 * new: changelog
 * new: initial sources fork at version 4.7 from http://baical.net/downloads.html (http://baical.net/p7changelog.txt)

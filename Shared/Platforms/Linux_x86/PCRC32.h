@@ -52,7 +52,7 @@ static UNUSED_FUNC tUINT32 Get_CRC32(tUINT8 *i_pData, size_t i_szCount)
             //"movl l_dwResult, %%ecx;" do it already by constraints
             //"movl g_ppCRC32_Table, %%edi;"
             "leal (%%esi,%%ebx),%%edx;" // Calculate the end of the buffer
-            "crc32loop:;"
+            "crc32loop%=:;"
             "xorl %%eax, %%eax;"         // Clear the eax register"
             "movb (%%esi), %%bl;"
             "movb %%cl, %%al;"           // Copy crc value into eax
@@ -62,7 +62,7 @@ static UNUSED_FUNC tUINT32 Get_CRC32(tUINT8 *i_pData, size_t i_szCount)
             "movl (%%edi, %%eax, 4), %%ebx;" // Get the value out of the table
             "xorl %%ebx, %%ecx;"             // xor with the current byte
             "cmpl %%edx, %%esi;"              // Have we reached the end of the buffer?
-            "jne crc32loop;"
+            "jne crc32loop%=;"
             "pop %%edi;"
             "pop %%esi;"
     
