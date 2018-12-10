@@ -1,4 +1,7 @@
 2018.11.30:
+* fixed: replaced usage of -pthread by target_link_libraries as more reliable
+
+2018.11.30:
 * fixed: asm compilation under gcc `error: symbol crc32loop is already defined`
 
 2018.11.22:

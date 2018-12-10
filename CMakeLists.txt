@@ -22,29 +22,19 @@ source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
 source_groups_from_dir_list("Resource Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.rc)
 
 if(WIN32)
-target_include_directories(${PROJECT_LIB_NAME}
-  PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/Shared
-    ${CMAKE_CURRENT_LIST_DIR}/Shared/Platforms/Windows_x86
-    ${CMAKE_CURRENT_LIST_DIR}/Headers
+  target_include_directories(${PROJECT_LIB_NAME}
+    PUBLIC
+      ${CMAKE_CURRENT_LIST_DIR}/Shared
+      ${CMAKE_CURRENT_LIST_DIR}/Shared/Platforms/Windows_x86
+      ${CMAKE_CURRENT_LIST_DIR}/Headers
 )
 elseif(UNIX)
-target_include_directories(${PROJECT_LIB_NAME}
-  PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/Shared
-    ${CMAKE_CURRENT_LIST_DIR}/Shared/Platforms/Linux_x86
-    ${CMAKE_CURRENT_LIST_DIR}/Headers
+  target_include_directories(${PROJECT_LIB_NAME}
+    PUBLIC
+      ${CMAKE_CURRENT_LIST_DIR}/Shared
+      ${CMAKE_CURRENT_LIST_DIR}/Shared/Platforms/Linux_x86
+      ${CMAKE_CURRENT_LIST_DIR}/Headers
 )
-endif()
-
-if(GCC)
-  add_target_compile_properties(${PROJECT_LIB_NAME} *
-    -pthread
-  )
-
-  add_target_link_properties(${PROJECT_LIB_NAME} NOTSTATIC *
-    -pthread
-  )
 endif()
 
 if(WIN32)
@@ -56,8 +46,10 @@ if(WIN32)
 
   #link_directories(${WINDOWSSDK_LIBRARY_DIRS})
   target_link_libraries(${PROJECT_LIB_NAME}
-    wsock32 ws2_32)
+    wsock32 ws2_32
+  )
 elseif(UNIX AND NOT APPLE)
   target_link_libraries(${PROJECT_LIB_NAME}
-    ${CMAKE_DL_LIBS} rt)
+    ${CMAKE_DL_LIBS} rt pthread
+  )
 endif()
