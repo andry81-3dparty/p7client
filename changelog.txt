@@ -1,3 +1,7 @@
+2019.08.29:
+* changed: merge with the latest library changes at version 5.2 from http://baical.net/downloads.html (http://baical.net/p7changelog.txt )
+* changed: readme update
+
 2018.11.30:
 * fixed: replaced usage of -pthread by target_link_libraries as more reliable
 
@@ -12,4 +16,4 @@
 
 2018.11.13:
 * new: changelog
-* new: initial sources fork at version 4.7 from http://baical.net/downloads.html (http://baical.net/p7changelog.txt)
+* new: initial sources fork at version 4.7 from http://baical.net/downloads.html (http://baical.net/p7changelog.txt )

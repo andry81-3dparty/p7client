@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2018.11.20
+* 2019.08.29
 * p7client
 
 1. DESCRIPTION
@@ -16,21 +16,28 @@ p7client patched sources fork from: http://baical.net/p7.html
 Some review and tests versus other loggers on russian website (RU):
   https://habr.com/post/313686/
 
-From authors:
-  P7 is open source and cross-platform library for high-speed sending telemetry
-  & trace data from your application with minimal usage of CPU and memory.
-  Library contains exhaustive documentation inside package.
+From author:
+  P7 is open source and cross-platform library for high-speed sending
+  telemetry & trace data from your application with minimal usage of CPU and
+  memory. Library contains exhaustive documentation inside package.
 
 Features:
   * C++/C/C#/Python support
   * Cross platform (Linux x86/x64, Windows x86/x64)
+  * Speed is priority, library and server are designed and optimized to suit
+    high load, for example average performance for Intel i7-870
+    (more than 10 years old CPU) is
+  Traces:
+  ** 0,5% CPU, one core: 450 000 traces per second (binary file or network)
+  ** 100% CPU, one core: ~5.7 million traces per second to network
+  ** 100% CPU, one core: ~10 million traces per second to binary file
+  Telemetry:
+  ** 0,5% CPU, one core: 600 000 telemetry samples per second (binary file or
+     network)
+  ** 100% CPU, one core: ~6.8 million telemetry samples per second to network
+  ** 100% CPU, one core: ~11 million telemetry samples per second to binary
+     file
   * Small memory footprint (optional, min is 16KB) - used for embedded devices
-  * Speed is priority, library designed to suit high load, for example average
-    performance for Intel i7-870 is
-  ** 350 000 traces per second - 0,5% CPU, max ~3.5 million traces per second to
-     network, ~10 million traces per second to file
-  ** 400 000 telemetry samples per second - 0,5% CPU, max ~3.8 million samples
-     per second to network, ~11 million samples per second to file
   * Thread safe
   * Unicode support (UTF-8, UTF-32 for Linux, UTF-16 for Windows)
   * ANSI char support
@@ -51,13 +58,16 @@ Features:
     enable/disable telemetry counters)
   * Shared memory is used - create your trace and telemetry channels once and
     access it from any process module or class without passing handles
-  * Crash handler or in case of user defined crash handler - special function to
-    flush all P7 buffers for all P7 objects inside process in case of crush
+  * Crash handler or in case of user defined crash handler - special function
+    to flush all P7 buffers for all P7 objects inside process in case of crush
   * Trace & telemetry files have compact binary format (due to speed
-    requirements - binary files much more compact than raw text), export to text
-    is available
+    requirements - binary files much more compact than raw text), export to
+    text is available
   * Command line interface for configuration may be used in addition to
     application parameters
+  * Big/Little endian support
+  * Intel/AMD, ARM, MCST, PowerPC, Baikal T1, etc.
+  * GCC, VC++, Clang, MinGW
 
 The original library patched to fix these issues:
 
@@ -65,7 +75,7 @@ The original library patched to fix these issues:
 
 Cmake scripts uses the cmake modules from the tacklelib library:
 
-https://svn.code.sf.net/p/tacklelib/cmake/trunk
+https://svn.code.sf.net/p/tacklelib/tacklelib/trunk/cmake/tacklelib
 
 -------------------------------------------------------------------------------
 2. LICENSE

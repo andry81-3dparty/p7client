@@ -16,41 +16,26 @@
 // License along with this library.                                            /
 //                                                                             /
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-// This header file provide functionality to deliver data to NULL              /
-////////////////////////////////////////////////////////////////////////////////
+#ifndef ISIGNAL_H
+#define ISIGNAL_H
 
-#ifndef CLNULL_H
-#define CLNULL_H
-
-class CClNull:
-    public CClient
+enum eCrashCode
 {
-public:
-    CClNull(tXCHAR **i_pArgs,
-            tINT32   i_iCount
-           );
-    virtual ~CClNull();
-
-private:
-    eClient_Status Init_Base(tXCHAR **i_pArgs, tINT32 i_iCount);
-
-public:
-    eClient_Status Get_Status()
-    {
-        return ECLIENT_STATUS_OK;
-    }
-
-    eClient_Status Sent(tUINT32            i_dwChannel_ID,
-                        sP7C_Data_Chunk   *i_pChunks, 
-                        tUINT32            i_dwCount,
-                        tUINT32            i_dwSize
-                       );
-
-    tBOOL Get_Status(sP7C_Status *o_pStatus);
-    tBOOL Get_Info(sP7C_Info *o_pInfo);
-    tBOOL Flush();
+    eCrashException,
+    eCrashPureCall,
+    eCrashMemAlloc,
+    eCrashInvalidParameter,
+    eCrashSignal
 };
 
+typedef void (__cdecl *fnCrashHandler)(eCrashCode i_eCode, const void *i_pCrashContext, void *i_pUserContext);
 
-#endif //CLNULL_H
+struct stChContext
+{
+    volatile int      iInstalled;
+    volatile int      iProcessed;
+    void             *pUserContext;
+    fnCrashHandler    pUserHandler;
+};
+
+#endif //ISIGNAL_H

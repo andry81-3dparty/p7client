@@ -16,41 +16,11 @@
 // License along with this library.                                            /
 //                                                                             /
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-// This header file provide functionality to deliver data to NULL              /
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef CLNULL_H
-#define CLNULL_H
-
-class CClNull:
-    public CClient
-{
-public:
-    CClNull(tXCHAR **i_pArgs,
-            tINT32   i_iCount
-           );
-    virtual ~CClNull();
-
-private:
-    eClient_Status Init_Base(tXCHAR **i_pArgs, tINT32 i_iCount);
-
-public:
-    eClient_Status Get_Status()
-    {
-        return ECLIENT_STATUS_OK;
-    }
-
-    eClient_Status Sent(tUINT32            i_dwChannel_ID,
-                        sP7C_Data_Chunk   *i_pChunks, 
-                        tUINT32            i_dwCount,
-                        tUINT32            i_dwSize
-                       );
-
-    tBOOL Get_Status(sP7C_Status *o_pStatus);
-    tBOOL Get_Info(sP7C_Info *o_pInfo);
-    tBOOL Flush();
-};
-
-
-#endif //CLNULL_H
+#ifndef P7_VERSION_H
+#define P7_VERSION_H
+//-----------------------------------------
+#define P7_VERSION 00050002
+#define P7_VERSION_MAJOR 5
+#define P7_VERSION_MINOR 2
+//-----------------------------------------
+#endif //P7_VERSION_H

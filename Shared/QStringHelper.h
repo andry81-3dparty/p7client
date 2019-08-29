@@ -16,41 +16,23 @@
 // License along with this library.                                            /
 //                                                                             /
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-// This header file provide functionality to deliver data to NULL              /
-////////////////////////////////////////////////////////////////////////////////
+#ifndef QSTRING_HELPER_H
+#define QSTRING_HELPER_H
 
-#ifndef CLNULL_H
-#define CLNULL_H
+#if defined(UTF8_ENCODING)
+    #define XCHAR_TO_QSTRING(X) QString::fromUtf8(X)
+#else
+    #define XCHAR_TO_QSTRING(X) QString::fromWCharArray(X)
+#endif
 
-class CClNull:
-    public CClient
-{
-public:
-    CClNull(tXCHAR **i_pArgs,
-            tINT32   i_iCount
-           );
-    virtual ~CClNull();
-
-private:
-    eClient_Status Init_Base(tXCHAR **i_pArgs, tINT32 i_iCount);
-
-public:
-    eClient_Status Get_Status()
-    {
-        return ECLIENT_STATUS_OK;
-    }
-
-    eClient_Status Sent(tUINT32            i_dwChannel_ID,
-                        sP7C_Data_Chunk   *i_pChunks, 
-                        tUINT32            i_dwCount,
-                        tUINT32            i_dwSize
-                       );
-
-    tBOOL Get_Status(sP7C_Status *o_pStatus);
-    tBOOL Get_Info(sP7C_Info *o_pInfo);
-    tBOOL Flush();
-};
+#if defined(UTF8_ENCODING)
+    #define QSTRING_TO_XCHAR_TRANSLATE(QbAUniq, QStr, XChar)\
+        QByteArray QbAUniq = QStr.toUtf8();\
+        XChar = (const tXCHAR*)QbAUniq.constData()
+    #define QSTRING_TO_XCHAR(QStr, XChar) QSTRING_TO_XCHAR_TRANSLATE(MAKE_UNIQUE(QbA), QStr, XChar)
+#else
+    #define QSTRING_TO_XCHAR(QStr, XChar) XChar = (const tXCHAR*)QStr.utf16();
+#endif
 
 
-#endif //CLNULL_H
+#endif //QSTRING_HELPER_H

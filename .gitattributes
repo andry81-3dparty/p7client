@@ -26,6 +26,7 @@ Headers/P7_Cproxy.h -text
 Headers/P7_Extensions.h -text
 Headers/P7_Telemetry.h -text
 Headers/P7_Trace.h -text
+Headers/P7_Version.h -text
 /License.txt -text
 /P7.sln -text
 /README_EN.txt -text
@@ -37,11 +38,13 @@ Shared/IFile.h -text
 Shared/IJournal.h -text
 Shared/IMEvent.h -text
 Shared/IPerformanceInfo.h -text
+Shared/ISignal.h -text
 Shared/Length.h -text
 Shared/Lock.h -text
 Shared/Platforms/Linux_x86/PAtomic.h -text
 Shared/Platforms/Linux_x86/PCRC32.h -text
 Shared/Platforms/Linux_x86/PConsole.h -text
+Shared/Platforms/Linux_x86/PCrashDump.h -text
 Shared/Platforms/Linux_x86/PFile.h -text
 Shared/Platforms/Linux_x86/PFileSystem.h -text
 Shared/Platforms/Linux_x86/PJournal.h -text
@@ -76,9 +79,12 @@ Shared/Platforms/Windows_x86/PString.h -text
 Shared/Platforms/Windows_x86/PSystem.h -text
 Shared/Platforms/Windows_x86/PThreadShell.h -text
 Shared/Platforms/Windows_x86/PTime.h -text
+Shared/Predicate.h -text
+Shared/QStringHelper.h -text
 Shared/RBTree.h -text
 Shared/SharedLib.h -text
 Shared/Ticks.h -text
+Shared/UDP_NB.h -text
 Shared/UTF.h -text
 Shared/WString.h -text
 Sources/CRC32.cpp -text
@@ -106,7 +112,6 @@ Sources/P7ClientLib.vcxproj -text
 Sources/P7ClientLib.vcxproj.filters -text
 Sources/PacketsPool.h -text
 Sources/Proxy.cpp -text
-Sources/Socket.h -text
 Sources/TPackets.h -text
 Sources/Telemetry.cpp -text
 Sources/Telemetry.h -text
