@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-include(Common)
+include(tacklelib/Project)
 
 project("p7client")
 
@@ -15,11 +15,11 @@ file(GLOB_RECURSE all_resources ${CMAKE_CURRENT_LIST_DIR}/Sources/*.rc)
 
 add_library(${PROJECT_LIB_NAME} STATIC ${all_headers};${all_sources};${all_resources})
 
-initialize_library_target_defaults(${PROJECT_LIB_NAME} "32bit")
+tkl_initialize_library_target_defaults(${PROJECT_LIB_NAME} "32bit")
 
-source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.h*)
-source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
-source_groups_from_dir_list("Resource Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.rc)
+tkl_source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.h*)
+tkl_source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
+tkl_source_groups_from_dir_list("Resource Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.rc)
 
 if(WIN32)
   target_include_directories(${PROJECT_LIB_NAME}
