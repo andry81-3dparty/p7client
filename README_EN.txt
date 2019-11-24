@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2019.08.29
+* 2019.11.24
 * p7client
 
 1. DESCRIPTION
@@ -12,6 +12,8 @@
 1. DESCRIPTION
 -------------------------------------------------------------------------------
 p7client patched sources fork from: http://baical.net/p7.html
+
+Based on version: 5.2
 
 Some review and tests versus other loggers on russian website (RU):
   https://habr.com/post/313686/
@@ -88,11 +90,14 @@ https://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License)
 3. REPOSITORIES
 -------------------------------------------------------------------------------
 Primary:
-  * https://svn.code.sf.net/p/tacklelib/3dparty--p7client/trunk
+  * https://sf.net/p/tacklelib/3dparty--p7client/HEAD/tree/trunk
+    https://svn.code.sf.net/p/tacklelib/3dparty--p7client/trunk
 First mirror:
-  * https://github.com/andry81/tacklelib--3dparty--p7client.git
+  * https://github.com/andry81/tacklelib--3dparty--p7client/tree/trunk
+    https://github.com/andry81/tacklelib--3dparty--p7client.git
 Second mirror:
-  * https://bitbucket.org/andry81/tacklelib-3dparty-p7client.git
+  * https://bitbucket.org/andry81/tacklelib-3dparty-p7client/src/trunk
+    https://bitbucket.org/andry81/tacklelib-3dparty-p7client.git
 
 -------------------------------------------------------------------------------
 4. INSTALLATION
