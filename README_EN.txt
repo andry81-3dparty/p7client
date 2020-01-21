@@ -1,6 +1,6 @@
 * README_EN.txt
-* 2019.11.24
-* p7client
+* 2020.01.21
+* tacklelib--3dparty--p7client
 
 1. DESCRIPTION
 2. LICENSE
@@ -11,7 +11,8 @@
 -------------------------------------------------------------------------------
 1. DESCRIPTION
 -------------------------------------------------------------------------------
-p7client patched sources fork from: http://baical.net/p7.html
+p7client patched sources fork from:
+http://baical.net/p7.html
 
 Based on version: 5.2
 
@@ -83,6 +84,7 @@ https://svn.code.sf.net/p/tacklelib/tacklelib/trunk/cmake/tacklelib
 2. LICENSE
 -------------------------------------------------------------------------------
 GNU LESSER GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
 (see included text file "License.txt" or
 https://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License)
 
