@@ -1,3 +1,6 @@
+2020.01.24:
+* changed: cutted off the version reference from the readme file as may change frequently
+
 2020.01.21:
 * changed: readme update
 

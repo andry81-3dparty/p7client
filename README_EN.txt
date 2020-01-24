@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2020.01.21
+* 2020.01.24
 * tacklelib--3dparty--p7client
 
 1. DESCRIPTION
@@ -13,8 +13,6 @@
 -------------------------------------------------------------------------------
 p7client patched sources fork from:
 http://baical.net/p7.html
-
-Based on version: 5.2
 
 Some review and tests versus other loggers on russian website (RU):
   https://habr.com/post/313686/
