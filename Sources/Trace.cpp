@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -148,9 +148,9 @@ P7_EXPORT IP7_Trace * __cdecl P7_Get_Shared_Trace(const tXCHAR *i_pName)
             {
                 l_pReturn = NULL;
             }
-        }
 
-        CShared::UnLock(l_pName);
+            CShared::UnLock(l_pName);
+        }
 
         free(l_pName);
         l_pName = NULL;
@@ -1956,6 +1956,28 @@ void CP7Trace::Set_Verbosity(IP7_Trace::hModule i_hModule, eP7Trace_Level i_eVer
 l_lblExit:
     LOCK_EXIT(m_sCS);
 }// Set_Verbosity
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Get_Verbosity                                      
+eP7Trace_Level CP7Trace::Get_Verbosity(IP7_Trace::hModule i_hModule)
+{
+    eP7Trace_Level l_eReturn = EP7TRACE_LEVEL_COUNT;
+    LOCK_ENTER(m_sCS);
+
+    if (i_hModule)
+    {
+        l_eReturn = ((sP7Trace_Module*)i_hModule)->eVerbosity;
+    }
+    else
+    {
+        l_eReturn = m_eVerbosity;
+    }
+
+    LOCK_EXIT(m_sCS);
+
+    return l_eReturn;
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////

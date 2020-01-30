@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -82,7 +82,7 @@ tBOOL CClNull::Get_Status(sP7C_Status *o_pStatus)
         return FALSE;
     }
 
-    o_pStatus->bConnected = FALSE;
+    o_pStatus->bConnected = TRUE;
     o_pStatus->dwResets   = 0;
 
     return TRUE;

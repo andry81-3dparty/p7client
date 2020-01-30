@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -103,9 +103,10 @@ P7_EXPORT IP7_Telemetry * __cdecl P7_Get_Shared_Telemetry(const tXCHAR *i_pName)
             {
                 l_pReturn = NULL;
             }
+
+            CShared::UnLock(l_pName);
         }
 
-        CShared::UnLock(l_pName);
         free(l_pName);
         l_pName = NULL;
     }

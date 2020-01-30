@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -743,6 +743,20 @@ namespace P7
 
 
         ////////////////////////////////////////////////////////////////////////
+        //P7_Trace_Get_Verbosity
+        private delegate System.UInt32 fnP7_Trace_Get_Verbosity(System.IntPtr i_hTrace,
+                                                                System.IntPtr i_hModule);
+        [DllImport(Dll.DLL_NAME_32, EntryPoint = "P7_Trace_Get_Verbosity", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        private static extern System.UInt32 P7_Trace_Get_Verbosity32(System.IntPtr i_hTrace,
+                                                                     System.IntPtr i_hModule
+                                                                    );
+        [DllImport(Dll.DLL_NAME_64, EntryPoint = "P7_Trace_Get_Verbosity", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        private static extern System.UInt32 P7_Trace_Get_Verbosity64(System.IntPtr i_hTrace,
+                                                                     System.IntPtr i_hModule
+                                                                    );
+
+
+        ////////////////////////////////////////////////////////////////////////
         //P7_Trace_Register_Thread
         private delegate System.UInt32 fnP7_Trace_Register_Thread(System.IntPtr i_hTrace,
                                                                   [MarshalAs(UnmanagedType.LPWStr)]String i_sName,
@@ -863,9 +877,11 @@ namespace P7
         private fnP7_Trace_Create            P7_Trace_Create            = null;       
 
         private fnP7_Trace_Get_Shared        P7_Trace_Get_Shared        = null;   
-        private fnP7_Trace_Share             P7_Trace_Share             = null;        
-        
-        private fnP7_Trace_Set_Verbosity     P7_Trace_Set_Verbosity     = null;
+        private fnP7_Trace_Share             P7_Trace_Share             = null;
+
+        private fnP7_Trace_Set_Verbosity     P7_Trace_Set_Verbosity = null;
+
+        private fnP7_Trace_Get_Verbosity     P7_Trace_Get_Verbosity = null;
 
         private fnP7_Trace_Register_Thread   P7_Trace_Register_Thread   = null;
         private fnP7_Trace_Unregister_Thread P7_Trace_Unregister_Thread = null;
@@ -936,6 +952,7 @@ namespace P7
                 P7_Trace_Get_Shared        = P7_Trace_Get_Shared64;
                 P7_Trace_Share             = P7_Trace_Share64;
                 P7_Trace_Set_Verbosity     = P7_Trace_Set_Verbosity64;
+                P7_Trace_Get_Verbosity     = P7_Trace_Get_Verbosity64;
                 P7_Trace_Register_Thread   = P7_Trace_Register_Thread64;
                 P7_Trace_Unregister_Thread = P7_Trace_Unregister_Thread64;
                 P7_Trace_Register_Module   = P7_Trace_Register_Module64;
@@ -949,6 +966,7 @@ namespace P7
                 P7_Trace_Get_Shared        = P7_Trace_Get_Shared32;
                 P7_Trace_Share             = P7_Trace_Share32;
                 P7_Trace_Set_Verbosity     = P7_Trace_Set_Verbosity32;
+                P7_Trace_Get_Verbosity     = P7_Trace_Get_Verbosity32;
                 P7_Trace_Register_Thread   = P7_Trace_Register_Thread32;
                 P7_Trace_Unregister_Thread = P7_Trace_Unregister_Thread32;
                 P7_Trace_Register_Module   = P7_Trace_Register_Module32;
@@ -1011,6 +1029,15 @@ namespace P7
         {
             P7_Trace_Set_Verbosity(m_hHandle, i_hModule, (UInt32)i_eLevel);
         }
+
+        /// <summary>
+        /// Get minimal trace verbosity. See documentation for details.
+        /// </summary>
+        public Traces.Level Get_Verbosity(System.IntPtr i_hModule)
+        {
+            return (Traces.Level)P7_Trace_Get_Verbosity(m_hHandle, i_hModule);
+        }
+
 
         /// <summary>
         /// function used to specify name for current/special thread.

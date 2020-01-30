@@ -142,6 +142,11 @@ Trace_Share.argtypes = [c_void_p, os_charp]
 Trace_Set_Verbosity          = g_hDll.P7_Trace_Set_Verbosity
 Trace_Set_Verbosity.argtypes = [c_void_p, c_void_p, c_uint]
 
+#loading P7_Trace_Get_Verbosity function
+Trace_Get_Verbosity          = g_hDll.P7_Trace_Get_Verbosity
+Trace_Get_Verbosity.restype  = c_uint
+Trace_Get_Verbosity.argtypes = [c_void_p, c_void_p]
+
 #loading P7_Telemetry_Share function
 Trace_Add           = g_hDll.P7_Trace_Managed
 Trace_Add.restype   = c_uint
@@ -349,6 +354,11 @@ class Traces:
     ##--------------------------------------------------------------------------
     def Set_Verbosity(self, i_hModule, i_iLevel):
         Trace_Set_Verbosity(self.m_hHandle, i_hModule, i_iLevel);
+    #<<< Set_Verbosity    
+
+    ##--------------------------------------------------------------------------
+    def Get_Verbosity(self, i_hModule):
+        return Trace_Get_Verbosity(self.m_hHandle, i_hModule);
     #<<< Set_Verbosity    
 
     

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -213,9 +213,10 @@ P7_EXPORT IP7_Client * __cdecl P7_Get_Shared(const tXCHAR *i_pName)
             {
                 l_pReturn = NULL;
             }
+
+            CShared::UnLock(l_pName);
         }
 
-        CShared::UnLock(l_pName);
 
         free(l_pName);
         l_pName = NULL;
@@ -372,6 +373,7 @@ CClient::CClient(IP7_Client::eType i_eType,
     , m_eType(i_eType)
     , m_pArgs(NULL)
     , m_iArgsCnt(0)
+    , m_bFlushChannels(TRUE)
 
 {
     memset(m_pChannels, 0, sizeof(IP7C_Channel*)*USER_PACKET_CHANNEL_ID_MAX_SIZE);
@@ -392,6 +394,16 @@ CClient::CClient(IP7_Client::eType i_eType,
                 m_pArgs[l_iI] = PStrDub(i_pArgs[l_iI]);
             }
         }
+    }
+
+
+    tXCHAR *l_pFlush = Get_Argument_Text_Value(m_pArgs, m_iArgsCnt, CLIENT_COMMAND_FLUSH_CHANNELS);
+
+    if (    (NULL != l_pFlush)
+         && (TM('0') == l_pFlush[0])
+       )
+    {
+        m_bFlushChannels = FALSE;
     }
 
     LOCK_CREATE(m_hCS_Reg);

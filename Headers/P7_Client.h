@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -173,6 +173,12 @@
 //specified
 //default value = 1mb
 #define CLIENT_COMMAND_POOL_SIZE                               TM("/P7.Pool=")
+
+
+//specify do we need to flush channels inside P7_Exceptional_Flush call
+//Values: 1 = yes, 0 = no
+//default value = 1
+#define CLIENT_COMMAND_FLUSH_CHANNELS                          TM("/P7.FlashChannels=")
 
 
 //specifies log message format for such sinks like: FileTxt, Console, SysLog 

@@ -20,7 +20,7 @@ H3_DIR=./../Headers
 OBJ_DIR=${BIN_DIR}/${TEMP_DIR}
 
 $(BIN_DIR)/libP7.so:$(BIN_DIR)/libP7.a $(OBJ_DIR)/Proxy.o $(OBJ_DIR)/Trace.o $(OBJ_DIR)/CRC32.o $(OBJ_DIR)/Client.o $(OBJ_DIR)/Telemetry.o $(OBJ_DIR)/ClBaical.o $(OBJ_DIR)/ClNull.o $(OBJ_DIR)/ClFile.o $(OBJ_DIR)/ClText.o
-	g++ -shared -fPIC -Wl,-soname,libP7.so.2 -o $(BIN_DIR)/libP7.so $(OBJ_DIR)/Proxy.o $(OBJ_DIR)/Trace.o $(OBJ_DIR)/CRC32.o $(OBJ_DIR)/Client.o $(OBJ_DIR)/Telemetry.o $(OBJ_DIR)/ClBaical.o $(OBJ_DIR)/ClNull.o $(OBJ_DIR)/ClFile.o $(OBJ_DIR)/ClText.o -lpthread -ldl -lrt
+	g++ -shared -fPIC -Wl,-soname,libP7.so -o $(BIN_DIR)/libP7.so $(OBJ_DIR)/Proxy.o $(OBJ_DIR)/Trace.o $(OBJ_DIR)/CRC32.o $(OBJ_DIR)/Client.o $(OBJ_DIR)/Telemetry.o $(OBJ_DIR)/ClBaical.o $(OBJ_DIR)/ClNull.o $(OBJ_DIR)/ClFile.o $(OBJ_DIR)/ClText.o -lpthread -ldl -lrt
 
 $(BIN_DIR)/libP7.a:$(OBJ_DIR)/Proxy.o $(OBJ_DIR)/Trace.o $(OBJ_DIR)/CRC32.o $(OBJ_DIR)/Client.o $(OBJ_DIR)/Telemetry.o $(OBJ_DIR)/ClBaical.o $(OBJ_DIR)/ClNull.o $(OBJ_DIR)/ClFile.o $(OBJ_DIR)/ClText.o
 	ar -rv $(BIN_DIR)/libP7.a $(OBJ_DIR)/Proxy.o $(OBJ_DIR)/Trace.o $(OBJ_DIR)/CRC32.o $(OBJ_DIR)/Client.o $(OBJ_DIR)/Telemetry.o $(OBJ_DIR)/ClBaical.o $(OBJ_DIR)/ClNull.o $(OBJ_DIR)/ClFile.o $(OBJ_DIR)/ClText.o

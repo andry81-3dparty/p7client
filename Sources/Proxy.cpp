@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -295,6 +295,21 @@ P7_EXPORT void __cdecl P7_Trace_Set_Verbosity(hP7_Trace        i_hTrace,
     l_pTrace->Set_Verbosity(i_hModule, (eP7Trace_Level)i_dwLevel);
 }//P7_Trace_Set_Verbosity
 
+
+////////////////////////////////////////////////////////////////////////////////
+//P7_Trace_Set_Verbosity
+P7_EXPORT tUINT32 __cdecl P7_Trace_Get_Verbosity(hP7_Trace        i_hTrace, 
+                                                 hP7_Trace_Module i_hModule 
+                                                )
+{
+    IP7_Trace *l_pTrace = static_cast<IP7_Trace *>(i_hTrace);
+    if (NULL == l_pTrace)
+    {
+        return EP7TRACE_LEVEL_COUNT;
+    }
+
+    return l_pTrace->Get_Verbosity(i_hModule);
+}//P7_Trace_Set_Verbosity
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -436,6 +436,19 @@ typedef void (__cdecl *fnP7_Trace_Set_Verbosity)(hP7_Trace        i_hTrace,
                                                  hP7_Trace_Module i_hModule, 
                                                  tUINT32          i_dwVerbosity
                                                 );
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//P7_Trace_Get_Verbosity - function to get minimal trace verbosity
+//See documentation for details.
+extern P7_EXPORT tUINT32 __cdecl P7_Trace_Get_Verbosity(hP7_Trace        i_hTrace, 
+                                                        hP7_Trace_Module i_hModule 
+                                                       );
+
+//dll/so function prototype
+typedef tUINT32 (__cdecl *fnP7_Trace_Get_Verbosity)(hP7_Trace        i_hTrace, 
+                                                    hP7_Trace_Module i_hModule);
 
 
 ////////////////////////////////////////////////////////////////////////////////

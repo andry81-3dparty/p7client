@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                             /
-// 2012-2019 (c) Baical                                                        /
+// 2012-2020 (c) Baical                                                        /
 //                                                                             /
 // This library is free software; you can redistribute it and/or               /
 // modify it under the terms of the GNU Lesser General Public                  /
@@ -1300,16 +1300,19 @@ tBOOL CClText::Flush()
     l_sStatus.bConnected = FALSE;
     l_sStatus.dwResets   = 0;
 
-    LOCK_ENTER(m_hCS_Reg);
-    for (tUINT32 l_dwI = 0; l_dwI < USER_PACKET_CHANNEL_ID_MAX_SIZE; l_dwI++)
+    if (m_bFlushChannels)
     {
-        if (m_pChannels[l_dwI])
+        LOCK_ENTER(m_hCS_Reg);
+        for (tUINT32 l_dwI = 0; l_dwI < USER_PACKET_CHANNEL_ID_MAX_SIZE; l_dwI++)
         {
-            m_pChannels[l_dwI]->On_Flush(l_dwI, &l_bStack_Trace);
-            m_pChannels[l_dwI]->On_Status(l_dwI, &l_sStatus);
+            if (m_pChannels[l_dwI])
+            {
+                m_pChannels[l_dwI]->On_Flush(l_dwI, &l_bStack_Trace);
+                m_pChannels[l_dwI]->On_Status(l_dwI, &l_sStatus);
+            }
         }
+        LOCK_EXIT(m_hCS_Reg);
     }
-    LOCK_EXIT(m_hCS_Reg);
 
     m_cEvThread.Set(THREAD_EXIT_SIGNAL);
 
@@ -1644,16 +1647,26 @@ void CClText::Routine()
         {
             l_bExit = TRUE;
         }
-        else if (THREAD_DATA_SIGNAL == l_dwSignal) //one buffer to write!
+        else if (    (THREAD_DATA_SIGNAL == l_dwSignal) //one buffer to write!
+                  || (MEVENT_TIME_OUT == l_dwSignal)
+                )
         {
             l_dwDumpTime = GetTickCount();
 
             ////////////////////////////////////////////////////////////////////
             //extract buffer
             LOCK_ENTER(m_hCS);
-            l_pEl     = m_cBuffer_Ready.Get_First();
-            l_pBuffer = m_cBuffer_Ready.Get_Data(l_pEl);
-            m_cBuffer_Ready.Del(l_pEl, FALSE);
+            l_pEl = m_cBuffer_Ready.Get_First();
+            if (l_pEl)
+            {
+                l_pBuffer = m_cBuffer_Ready.Get_Data(l_pEl);
+                m_cBuffer_Ready.Del(l_pEl, FALSE);
+            }
+            else
+            {
+                l_pBuffer = m_pBuffer_Current;
+                m_pBuffer_Current = NULL;
+            }
             LOCK_EXIT(m_hCS); 
 
             ////////////////////////////////////////////////////////////////////
@@ -1662,28 +1675,6 @@ void CClText::Routine()
             {
                 l_eStatus = Parse_Buffer(l_pBuffer->pBuffer, l_pBuffer->szUsed);
 
-                LOCK_ENTER(m_hCS);
-                l_pBuffer->szUsed = 0;
-                m_cBuffer_Empty.Add_After(NULL, l_pBuffer);
-                if (m_bNoData)
-                {
-                    m_cEvData.Set(DATA_FREE_SIGNAL);
-                    m_bNoData = FALSE;
-                }
-                LOCK_EXIT(m_hCS); 
-            }
-        }
-        else if (MEVENT_TIME_OUT == l_dwSignal)
-        {
-            LOCK_ENTER(m_hCS);
-            l_pBuffer = m_pBuffer_Current;
-            m_pBuffer_Current = NULL;
-            LOCK_EXIT(m_hCS); 
-        
-            if (l_pBuffer)
-            {
-                l_eStatus = Parse_Buffer(l_pBuffer->pBuffer, l_pBuffer->szUsed);
-        
                 LOCK_ENTER(m_hCS);
                 l_pBuffer->szUsed = 0;
                 m_cBuffer_Empty.Add_After(NULL, l_pBuffer);
