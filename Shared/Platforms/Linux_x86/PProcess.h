@@ -21,10 +21,18 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#ifdef MINGW
+#include <pthread.h>
+#else
 #include <sys/syscall.h>
+#endif
 #include <unistd.h>
 #include <fcntl.h>
+#ifdef MINGW
+#include <sys/param.h> //HZ macro !
+#else
 #include <asm/param.h> //HZ macro !
+#endif
 #include <sched.h>
 
 class CProc
@@ -601,9 +609,12 @@ public:
     //Get_Thread_Id
     static tUINT32 Get_Thread_Id()
     {
+#ifdef MINGW
+        return (int32_t)pthread_self();
+#else
         return (int32_t)syscall(SYS_gettid);
-        //return pthread_self();
-        //return gettid();
+#endif
+        //return (int32_t)gettid();
     }//Get_Thread_Id
     
     

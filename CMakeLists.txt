@@ -11,7 +11,12 @@ file(GLOB_RECURSE all_headers ${CMAKE_CURRENT_LIST_DIR}/Headers/*.h*)
 file(GLOB_RECURSE all_headers ${CMAKE_CURRENT_LIST_DIR}/Sources/*.h*)
 file(GLOB_RECURSE all_headers ${CMAKE_CURRENT_LIST_DIR}/Shared/*.h*)
 file(GLOB_RECURSE all_sources ${CMAKE_CURRENT_LIST_DIR}/Sources/*.c*)
-file(GLOB_RECURSE all_resources ${CMAKE_CURRENT_LIST_DIR}/Sources/*.rc)
+
+if (WIN32 AND NOT MINGW)
+  file(GLOB_RECURSE all_resources ${CMAKE_CURRENT_LIST_DIR}/Sources/*.rc)
+else()
+  set(all_resources "")
+endif()
 
 add_library(${PROJECT_LIB_NAME} STATIC ${all_headers};${all_sources};${all_resources})
 
@@ -21,23 +26,29 @@ tkl_source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *
 tkl_source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
 tkl_source_groups_from_dir_list("Resource Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.rc)
 
-if(WIN32)
+if (WIN32 AND NOT MINGW)
   target_include_directories(${PROJECT_LIB_NAME}
     PUBLIC
       ${CMAKE_CURRENT_LIST_DIR}/Shared
       ${CMAKE_CURRENT_LIST_DIR}/Shared/Platforms/Windows_x86
       ${CMAKE_CURRENT_LIST_DIR}/Headers
-)
-elseif(UNIX)
+  )
+elseif (UNIX OR MINGW)
   target_include_directories(${PROJECT_LIB_NAME}
     PUBLIC
       ${CMAKE_CURRENT_LIST_DIR}/Shared
       ${CMAKE_CURRENT_LIST_DIR}/Shared/Platforms/Linux_x86
       ${CMAKE_CURRENT_LIST_DIR}/Headers
-)
+  )
+  if (MINGW)
+    tkl_add_target_compile_definitions(${PROJECT_LIB_NAME} *
+      PRIVATE
+        MINGW
+    )
+  endif()
 endif()
 
-if(WIN32)
+if (WIN32)
   #find_package(WindowsSDK REQUIRED)
   #get_windowssdk_include_dirs(${WINDOWSSDK_LATEST_DIR} WINDOWSSDK_INCLUDE_DIRS)
   #get_windowssdk_library_dirs(${WINDOWSSDK_LATEST_DIR} WINDOWSSDK_LIBRARY_DIRS)
@@ -48,7 +59,11 @@ if(WIN32)
   target_link_libraries(${PROJECT_LIB_NAME}
     wsock32 ws2_32
   )
-elseif(UNIX AND NOT APPLE)
+elseif (MINGW)
+  target_link_libraries(${PROJECT_LIB_NAME}
+    ${CMAKE_DL_LIBS} pthread
+  )
+elseif (UNIX AND NOT APPLE)
   target_link_libraries(${PROJECT_LIB_NAME}
     ${CMAKE_DL_LIBS} rt pthread
   )

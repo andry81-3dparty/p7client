@@ -1,3 +1,6 @@
+2020.02.21:
+* fixed: msys/mingw build fixup
+
 2020.02.10:
 * changed: readme update
 

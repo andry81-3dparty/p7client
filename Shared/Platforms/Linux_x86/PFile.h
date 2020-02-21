@@ -33,6 +33,11 @@
 
 #define GetLastError() errno
 
+#ifdef MINGW
+#define off64_t _off64_t
+#define lseek64 lseek
+#endif
+
 //UTF-8 text file header - {0xEF, 0xBB, 0xBF}
 
 ////////////////////////////////////////////////////////////////////////////////

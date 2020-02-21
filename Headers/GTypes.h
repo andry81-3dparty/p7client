@@ -62,7 +62,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 //LINUX specific definitions & types
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(MINGW)
     #define UTF8_ENCODING
 
     //Text marco, allow to use char automatically
@@ -72,7 +72,11 @@
     typedef unsigned short tWCHAR;
     #define WND_HANDLE     void*
 
-    #define SHARED_EXT    "so"
+    #if defined(MINGW)
+        #define SHARED_EXT    "dll"
+    #else
+        #define SHARED_EXT    "so"
+    #endif
 
     typedef struct _GUID
     {
@@ -82,8 +86,12 @@
         unsigned char  Data4[ 8 ];
     } GUID;
 
-    #define __stdcall
-    #define __cdecl
+    #ifndef __stdcall
+      #define __stdcall
+    #endif
+    #ifndef __cdecl
+      #define __cdecl
+    #endif
 
     #ifndef __forceinline
         #if defined(GTX64) || defined(__PIC__)
