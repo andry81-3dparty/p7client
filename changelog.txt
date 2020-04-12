@@ -1,0 +1,43 @@
+2020.04.12:
+* new: branch with the library changes at version 5.5 (2020.03.09) from http://baical.net/downloads.html (http://baical.net/p7changelog.txt )
+
+2020.02.21:
+* fixed: msys/mingw build fixup
+
+2020.02.10:
+* changed: readme update
+
+2019.08.29:
+* changed: merge with the library changes at version 5.3 (2020.01.27) from http://baical.net/downloads.html (http://baical.net/p7changelog.txt )
+
+2020.01.24:
+* changed: cutted off the version reference from the readme file as may change frequently
+
+2020.01.21:
+* changed: readme update
+
+2019.11.24:
+* changed: readme update
+
+2019.10.08:
+* fixed: cmake: configure fix
+
+2019.08.29:
+* changed: merge with the library changes at version 5.2 (2019.06.29) from http://baical.net/downloads.html (http://baical.net/p7changelog.txt )
+* changed: readme update
+
+2018.11.30:
+* fixed: replaced usage of -pthread by target_link_libraries as more reliable
+
+2018.11.30:
+* fixed: asm compilation under gcc `error: symbol crc32loop is already defined`
+
+2018.11.22:
+* fixed: build under linux
+
+2018.11.21:
+* fixed: access to long UNC paths under Windows (only backward slashes must be used there)
+
+2018.11.13:
+* new: changelog
+* new: initial sources fork at version 4.7 from http://baical.net/downloads.html (http://baical.net/p7changelog.txt )
