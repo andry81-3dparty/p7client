@@ -1,0 +1,13 @@
+repositories:
+
+  _externals/5_5_0_release:
+    type:             git
+    url:              https://github.com/andry81-3dparty/p7client
+    version:          5_5_0_release
+    fetch-to-branch:  5_5_0_release
+
+  _externals/5_3_0_release:
+    type:             git
+    url:              https://github.com/andry81-3dparty/p7client
+    version:          5_3_0_release
+    fetch-to-branch:  5_3_0_release
