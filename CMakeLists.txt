@@ -1,15 +1,13 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-include(tacklelib/Project)
-
-project("p7client")
-
-set(PROJECT_LIB_NAME p7client)
+project(p7lib)
 
 #>>Build options **********************************************************************
 option(P7_TESTS_BUILD "Build test" OFF)
 option(P7_EXAMPLES_BUILD "Build examples" OFF)
 #<<Build options **********************************************************************
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(CheckCXXCompilerFlag)
 function(enable_cxx_compiler_flag_if_supported flag)
@@ -22,85 +20,47 @@ function(enable_cxx_compiler_flag_if_supported flag)
     endif()
 endfunction()
 
+set(ROOT_P7_PATH ${PROJECT_SOURCE_DIR} CACHE INTERNAL "")
 
-file(GLOB_RECURSE all_headers ${CMAKE_CURRENT_LIST_DIR}/Headers/*.h*)
-file(GLOB_RECURSE all_headers ${CMAKE_CURRENT_LIST_DIR}/Sources/*.h*)
-file(GLOB_RECURSE all_headers ${CMAKE_CURRENT_LIST_DIR}/Shared/*.h*)
-file(GLOB_RECURSE all_sources ${CMAKE_CURRENT_LIST_DIR}/Sources/*.c*)
+if(MSVC)
+    add_definitions(-D_UNICODE)
+    add_definitions(-DUNICODE)
 
-if (WIN32 AND NOT MINGW)
-  file(GLOB_RECURSE all_resources ${CMAKE_CURRENT_LIST_DIR}/Sources/*.rc)
+    macro(set_ide_folder _project_name)
+        string(LENGTH ${ROOT_P7_PATH} ROOT_P7_PATH_LEN)
+        string(LENGTH ${CMAKE_CURRENT_SOURCE_DIR} CURRENT_SOURCE_DIR_LEN)
+        MATH(EXPR ROOT_P7_PATH_LEN "${ROOT_P7_PATH_LEN}+1")
+        MATH(EXPR CURRENT_SOURCE_DIR_LEN "${CURRENT_SOURCE_DIR_LEN} - ${ROOT_P7_PATH_LEN}")
+
+        string(SUBSTRING ${CMAKE_CURRENT_SOURCE_DIR} ${ROOT_P7_PATH_LEN} ${CURRENT_SOURCE_DIR_LEN} IDE_SUBFOLDER)
+        set_property(TARGET ${_project_name} PROPERTY FOLDER ${IDE_SUBFOLDER})
+    endmacro()
 else()
-  set(all_resources "")
+    enable_cxx_compiler_flag_if_supported("-Wall")
+    enable_cxx_compiler_flag_if_supported("-Wextra")
+    enable_cxx_compiler_flag_if_supported("-pedantic")
+    enable_cxx_compiler_flag_if_supported("-D_FILE_OFFSET_BITS=64")
+    enable_cxx_compiler_flag_if_supported("-D_LARGEFILE64_SOURCE")
+    enable_cxx_compiler_flag_if_supported("-fvisibility=hidden")
+    enable_cxx_compiler_flag_if_supported("-Wno-variadic-macros")
+    enable_cxx_compiler_flag_if_supported("-Wno-long-long")
+    enable_cxx_compiler_flag_if_supported("-Wno-missing-field-initializers")
+    enable_cxx_compiler_flag_if_supported("-Wno-unknown-pragmas")
+    enable_cxx_compiler_flag_if_supported("-fPIC")
+    
+    macro(set_ide_folder _project_name)
+    endmacro()
 endif()
 
-add_library(${PROJECT_LIB_NAME} STATIC ${all_headers};${all_sources};${all_resources})
+SET(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/_Build_)
 
-tkl_initialize_library_target_defaults(${PROJECT_LIB_NAME} "32bit")
+add_subdirectory(Sources)
 
-tkl_source_groups_from_dir_list("Header Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.h*)
-tkl_source_groups_from_dir_list("Source Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.c*)
-tkl_source_groups_from_dir_list("Resource Files" FILES ${CMAKE_CURRENT_LIST_DIR} *.rc)
-
-if (MSVC)
-  tkl_add_target_compile_definitions(${PROJECT_LIB_NAME} *
-    PRIVATE
-      _UNICODE
-      UNICODE
-  )
-else()
-  enable_cxx_compiler_flag_if_supported("-Wall")
-  enable_cxx_compiler_flag_if_supported("-Wextra")
-  enable_cxx_compiler_flag_if_supported("-pedantic")
-  enable_cxx_compiler_flag_if_supported("-D_FILE_OFFSET_BITS=64")
-  enable_cxx_compiler_flag_if_supported("-D_LARGEFILE64_SOURCE")
-  enable_cxx_compiler_flag_if_supported("-fvisibility=hidden")
-  enable_cxx_compiler_flag_if_supported("-Wno-variadic-macros")
-  enable_cxx_compiler_flag_if_supported("-Wno-long-long")
-  enable_cxx_compiler_flag_if_supported("-Wno-missing-field-initializers")
-  enable_cxx_compiler_flag_if_supported("-Wno-unknown-pragmas")
-  enable_cxx_compiler_flag_if_supported("-fPIC")
+if(P7_TESTS_BUILD)
+    add_subdirectory(Tests)
 endif()
 
-if (WIN32 AND NOT MINGW)
-  target_include_directories(${PROJECT_LIB_NAME}
-    PUBLIC
-      ${CMAKE_CURRENT_LIST_DIR}/Shared
-      ${CMAKE_CURRENT_LIST_DIR}/Shared/Platforms/Windows_x86
-      ${CMAKE_CURRENT_LIST_DIR}/Headers
-  )
-elseif (UNIX OR MINGW)
-  target_include_directories(${PROJECT_LIB_NAME}
-    PUBLIC
-      ${CMAKE_CURRENT_LIST_DIR}/Shared
-      ${CMAKE_CURRENT_LIST_DIR}/Shared/Platforms/Linux_x86
-      ${CMAKE_CURRENT_LIST_DIR}/Headers
-  )
-  if (MINGW)
-    tkl_add_target_compile_definitions(${PROJECT_LIB_NAME} *
-      PRIVATE
-        MINGW
-    )
-  endif()
+if(P7_EXAMPLES_BUILD)
+    add_subdirectory(Examples)
 endif()
 
-if (WIN32)
-  #find_package(WindowsSDK REQUIRED)
-  #get_windowssdk_include_dirs(${WINDOWSSDK_LATEST_DIR} WINDOWSSDK_INCLUDE_DIRS)
-  #get_windowssdk_library_dirs(${WINDOWSSDK_LATEST_DIR} WINDOWSSDK_LIBRARY_DIRS)
-  #message(STATUS "(*) Found `WindowsSDK`: ${WINDOWSSDK_FOUND} Latest Dir: \"${WINDOWSSDK_LATEST_DIR}\" Latest Name: ${WINDOWSSDK_LATEST_NAME} "
-  #  "Includes: [${WINDOWSSDK_INCLUDE_DIRS}] Library Dirs: [${WINDOWSSDK_LIBRARY_DIRS}]")
-
-  #link_directories(${WINDOWSSDK_LIBRARY_DIRS})
-  target_link_libraries(${PROJECT_LIB_NAME}
-    wsock32 ws2_32
-  )
-elseif (MINGW)
-  target_link_libraries(${PROJECT_LIB_NAME}
-    ${CMAKE_DL_LIBS} pthread
-  )
-elseif (UNIX AND NOT APPLE)
-  target_link_libraries(${PROJECT_LIB_NAME}
-    ${CMAKE_DL_LIBS} rt pthread
-  )
-endif()
